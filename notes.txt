@@ -1,0 +1,4 @@
+Matchmaking: 
+    1. User kann matchmaking starten mit /matchmaking | Fertig
+    2. Er kann denn Team Code eingeben denn er in brawlstars hat | Fertig
+    3. Der TeamCode wird in der datenbank gespeichert mit der userId vom userId | Fertig
