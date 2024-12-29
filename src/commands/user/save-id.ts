@@ -36,16 +36,14 @@ export class SaveId {
         interaction.user.id
       );
 
-      if (playerExists === true) {
+      if (playerExists) {
         const successEmbed = new EmbedBuilder()
           .setTitle("Success")
           .setDescription("Your Brawl Stars ID has been saved.")
           .setColor("Green");
 
         await interaction.editReply({ embeds: [successEmbed] });
-      }
-
-      if (playerExists === false) {
+      } else {
         const errorEmbed = new EmbedBuilder()
           .setTitle("Error")
           .setDescription("The Brawl Stars ID does not exist.")
