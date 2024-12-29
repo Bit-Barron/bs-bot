@@ -22,7 +22,14 @@ export class PlayerService {
       });
 
       if (response.ok) {
-        const savePlayer = prisma.player.create({
+        prisma.player.create({
+          data: {
+            brawlstarsId: brawlStarsId,
+            discordId,
+          },
+        });
+
+        prisma.queue.create({
           data: {
             brawlstarsId: brawlStarsId,
             discordId,
@@ -30,8 +37,6 @@ export class PlayerService {
         });
 
         return true;
-      } else if (response.status === 404) {
-        return false;
       }
     } catch (error) {
       throw new Error(`Failed to check player existence: ${error}`);
