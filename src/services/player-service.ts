@@ -6,40 +6,43 @@ export class PlayerService {
   public async checkPlayerExists(
     brawlStarsId: string,
     discordId: string
-  ): Promise<boolean | undefined> {
+  ): Promise<boolean> {
     if (!brawlStarsId) {
       throw new Error("Invalid input: Brawl Stars ID is required.");
     }
 
     const formattedId = encodeURIComponent(`#${brawlStarsId}`);
-    const URL = `${this.BASE_URL}${formattedId}`;
+    const url = `${this.BASE_URL}${formattedId}`;
 
     try {
-      const response = await fetch(URL, {
+      const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${process.env.BRAWL_STARS_API_KEY}`,
         },
       });
 
-      if (response.ok) {
+      if (!response.ok) {
+        return false;
+      }
+
+      await prisma.$transaction([
         prisma.player.create({
           data: {
             brawlstarsId: brawlStarsId,
             discordId,
           },
-        });
-
+        }),
         prisma.queue.create({
           data: {
             brawlstarsId: brawlStarsId,
             discordId,
           },
-        });
+        }),
+      ]);
 
-        return true;
-      }
+      return true;
     } catch (error) {
-      throw new Error(`Failed to check player existence: ${error}`);
+      throw new Error("Failed to check player existence.");
     }
   }
 }
