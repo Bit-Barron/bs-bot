@@ -4,7 +4,7 @@ import { log } from "console";
 import { ActivityType, GatewayIntentBits, Partials } from "discord.js";
 import { Client } from "discordx";
 
-const token = process.env.TOKEN;
+const token = process.env.DISCORD_BOT_TOKEN;
 
 export const bot = new Client({
   intents: [],

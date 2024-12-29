@@ -36,24 +36,22 @@ export class SaveId {
         interaction.user.id
       );
 
-      if (playerExists) {
+      if (playerExists === true) {
         const successEmbed = new EmbedBuilder()
-          .setTitle("Brawl Stars ID")
-          .setDescription(
-            `Your Brawl Stars ID \`${brawlStarsId}\` has been saved.`
-          )
+          .setTitle("Success")
+          .setDescription("Your Brawl Stars ID has been saved.")
           .setColor("Green");
 
         await interaction.editReply({ embeds: [successEmbed] });
-      } else {
-        const notFoundEmbed = new EmbedBuilder()
-          .setTitle("Player Not Found")
-          .setDescription(
-            `The Brawl Stars ID \`${brawlStarsId}\` does not exist.`
-          )
+      }
+
+      if (playerExists === false) {
+        const errorEmbed = new EmbedBuilder()
+          .setTitle("Error")
+          .setDescription("The Brawl Stars ID does not exist.")
           .setColor("Red");
 
-        await interaction.editReply({ embeds: [notFoundEmbed] });
+        await interaction.editReply({ embeds: [errorEmbed] });
       }
     } catch (error) {
       const errorEmbed = new EmbedBuilder()

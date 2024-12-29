@@ -28,6 +28,8 @@ export class PlayerService {
             discordId,
           },
         });
+
+        return true;
       } else if (response.status === 404) {
         return false;
       }
