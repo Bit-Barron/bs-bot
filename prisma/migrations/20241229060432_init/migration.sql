@@ -16,3 +16,13 @@ CREATE TABLE "Player" (
 
     CONSTRAINT "Player_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateTable
+CREATE TABLE "Queue" (
+    "id" TEXT NOT NULL,
+    "discordId" TEXT NOT NULL,
+    "brawlstarsId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Queue_pkey" PRIMARY KEY ("id")
+);

@@ -25,3 +25,10 @@ model Player {
   discordId    String
   createdAt    DateTime @default(now())
 }
+
+model Queue {
+  id        String   @id @default(cuid())
+  discordId String
+  brawlstarsId String
+  createdAt DateTime @default(now())
+}

@@ -2,3 +2,8 @@ Matchmaking:
     1. User kann matchmaking starten mit /matchmaking | Fertig
     2. Er kann denn Team Code eingeben denn er in brawlstars hat | Fertig
     3. Der TeamCode wird in der datenbank gespeichert mit der userId vom userId | Fertig
+
+SAVE-ID:
+    1. User kann BS Id speichern mit /save-id
+    2. Es wird überprüft ob der user existiert mit der brawlstars API
+    3. Der User wird in postgres DB gespeichert und in der QUEUE
