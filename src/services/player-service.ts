@@ -13,10 +13,6 @@ export class PlayerService {
     brawlStarsId: string,
     discordId: string,
   ): Promise<boolean> {
-    if (!brawlStarsId) {
-      throw new Error("Invalid input: Brawl Stars ID is required.");
-    }
-
     const formattedId = encodeURIComponent(`#${brawlStarsId}`);
     const url = `${this.BASE_URL}${formattedId}`;
 

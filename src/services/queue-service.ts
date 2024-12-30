@@ -1,3 +1,4 @@
+import { EmbedBuilder } from "discord.js";
 import prisma from "../utils/prisma";
 
 export class QueueService {
@@ -16,7 +17,7 @@ export class QueueService {
     });
 
     if (existingQueue) {
-      throw new Error("Queue already exists.");
+      throw new Error("Already in the queue.");
     }
 
     try {
@@ -29,7 +30,12 @@ export class QueueService {
 
       return true;
     } catch (error) {
-      throw new Error("Failed to create queue.");
+      const errorEmbed = new EmbedBuilder()
+        .setTitle("Error")
+        .setDescription("Failed to join the queue.")
+        .setColor("Red");
+
+      return false;
     }
   }
 }
