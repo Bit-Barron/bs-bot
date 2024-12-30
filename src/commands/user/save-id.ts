@@ -26,14 +26,14 @@ export class SaveId {
       type: ApplicationCommandOptionType.String,
     })
     brawlStarsId: string,
-    interaction: CommandInteraction
+    interaction: CommandInteraction,
   ): Promise<void> {
     try {
       await interaction.deferReply();
 
       const playerExists = await this.playerService.checkPlayerExists(
         brawlStarsId,
-        interaction.user.id
+        interaction.user.id,
       );
 
       if (playerExists) {
@@ -55,7 +55,7 @@ export class SaveId {
       const errorEmbed = new EmbedBuilder()
         .setTitle("Error")
         .setDescription(
-          `An error occurred while checking the Brawl Stars ID: ${error}`
+          `An error occurred while checking the Brawl Stars ID: ${error}`,
         )
         .setColor("Red");
 

@@ -37,8 +37,8 @@ export class Matchmaking {
       );
 
       const embed = new EmbedBuilder()
-        .setTitle("Matchmaking Queue")
-        .setDescription(`Team ${team_code} has been added to the queue.`)
+        .setTitle("Matchmaking Started")
+        .setDescription(`Matchmaking started for team ${team_code}`)
         .setColor("Green");
 
       await interaction.editReply({ embeds: [embed] });

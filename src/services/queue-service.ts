@@ -30,7 +30,7 @@ export class QueueService {
 
       return true;
     } catch (error) {
-      const errorEmbed = new EmbedBuilder()
+      new EmbedBuilder()
         .setTitle("Error")
         .setDescription("Failed to join the queue.")
         .setColor("Red");
