@@ -1,0 +1,35 @@
+import prisma from "../utils/prisma";
+
+export class QueueService {
+  public async joinQueue(
+    brawlStarsId: string,
+    discordId: string,
+  ): Promise<boolean> {
+    if (!brawlStarsId) {
+      throw new Error("Invalid input: Brawl Stars ID is required.");
+    }
+
+    const existingQueue = await prisma.queue.findFirst({
+      where: {
+        brawlstarsId: brawlStarsId,
+      },
+    });
+
+    if (existingQueue) {
+      throw new Error("Queue already exists.");
+    }
+
+    try {
+      await prisma.queue.create({
+        data: {
+          brawlstarsId: brawlStarsId,
+          discordId,
+        },
+      });
+
+      return true;
+    } catch (error) {
+      throw new Error("Failed to create queue.");
+    }
+  }
+}

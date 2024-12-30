@@ -1,7 +1,9 @@
 {
   "dependencies": {
+    "@prisma/client": "6.1.0",
     "discord.js": "^14.16.3",
     "discordx": "^11.12.2",
+    "prettier-plugin-tailwindcss": "^0.6.9",
     "prisma": "^6.1.0"
   },
   "scripts": {

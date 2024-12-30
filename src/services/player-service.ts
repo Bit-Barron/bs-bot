@@ -1,11 +1,17 @@
 import prisma from "../utils/prisma";
+import { QueueService } from "./queue-service";
 
 export class PlayerService {
   private readonly BASE_URL = "https://api.brawlstars.com/v1/players/";
+  private queueService: QueueService;
+
+  constructor() {
+    this.queueService = new QueueService();
+  }
 
   public async checkPlayerExists(
     brawlStarsId: string,
-    discordId: string
+    discordId: string,
   ): Promise<boolean> {
     if (!brawlStarsId) {
       throw new Error("Invalid input: Brawl Stars ID is required.");
@@ -25,20 +31,14 @@ export class PlayerService {
         return false;
       }
 
-      await prisma.$transaction([
-        prisma.player.create({
-          data: {
-            brawlstarsId: brawlStarsId,
-            discordId,
-          },
-        }),
-        prisma.queue.create({
-          data: {
-            brawlstarsId: brawlStarsId,
-            discordId,
-          },
-        }),
-      ]);
+      prisma.player.create({
+        data: {
+          brawlstarsId: brawlStarsId,
+          discordId,
+        },
+      });
+
+      await this.queueService.joinQueue(brawlStarsId, discordId);
 
       return true;
     } catch (error) {
