@@ -6,7 +6,7 @@ Matchmaking:
 SAVE-ID:
     1. User kann BS Id speichern mit /save-id | FERTIG
     2. Es wird überprüft ob der user existiert mit der brawlstars API | FERTIG
-    3. Der User wird in postgres DB gespeichert und in der QUEUE 
+    3. Der User wird in postgres DB gespeichert und in der QUEUE | FERTIG
 
 QUEUE-MANAGEMENT: 
     - Ein Benutzer nicht mehrfach in die Queue gelangen kann.
