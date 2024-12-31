@@ -23,13 +23,17 @@ export class QueueService {
     });
 
     if (!existingPlayer) {
-      throw new Error(
-        "Player not found. Please save your Brawl Stars ID first.",
-      );
+      new EmbedBuilder()
+        .setTitle("Error")
+        .setDescription("Player not found. Please check your Brawl Stars ID.")
+        .setColor("Red");
     }
 
     if (existingQueue) {
-      throw new Error("Already in the queue.");
+      new EmbedBuilder()
+        .setTitle("Error")
+        .setDescription("Already in the queue.")
+        .setColor("Red");
     }
 
     try {
