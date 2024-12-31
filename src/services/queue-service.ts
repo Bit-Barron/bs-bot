@@ -40,6 +40,7 @@ export class QueueService {
       await prisma.queue.create({
         data: {
           discordId,
+          brawlstarsId: brawlStarsId
         },
       });
 
