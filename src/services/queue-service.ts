@@ -16,6 +16,18 @@ export class QueueService {
       },
     });
 
+    const existingPlayer = await prisma.player.findFirst({
+      where: {
+        brawlstarsId: brawlStarsId,
+      },
+    });
+
+    if (!existingPlayer) {
+      throw new Error(
+        "Player not found. Please save your Brawl Stars ID first.",
+      );
+    }
+
     if (existingQueue) {
       throw new Error("Already in the queue.");
     }
