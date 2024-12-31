@@ -15,7 +15,7 @@ export class Matchmaking {
   }
 
   @Slash({
-    name: "matchmaking",
+    name: "start-matchmaking",
     description: "Tritt einer Matchmaking-Queue bei",
   })
   async matchmaking(
@@ -26,19 +26,19 @@ export class Matchmaking {
       type: ApplicationCommandOptionType.String,
     })
     team_code: string,
-    interaction: CommandInteraction
+    interaction: CommandInteraction,
   ): Promise<void> {
     try {
       await interaction.deferReply();
 
       await this.matchmakingService.startMatchmaking(
         team_code,
-        interaction?.user.id
+        interaction?.user.id,
       );
 
       const embed = new EmbedBuilder()
         .setTitle("Matchmaking Started")
-        .setDescription(`Matchmaking started for team ${team_code}`)
+        .setDescription(`Matchmaking started `)
         .setColor("Green");
 
       await interaction.editReply({ embeds: [embed] });
@@ -46,7 +46,7 @@ export class Matchmaking {
       new EmbedBuilder()
         .setTitle("Error")
         .setDescription(
-          `An error occurred while adding the team to the queue: ${error}`
+          `An error occurred while adding the team to the queue: ${error}`,
         )
         .setColor("Red");
     }
