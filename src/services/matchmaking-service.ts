@@ -1,3 +1,4 @@
+import { EmbedBuilder } from "discord.js";
 import prisma from "../utils/prisma";
 
 export class MatchmakingService {
@@ -7,10 +8,13 @@ export class MatchmakingService {
 
   public async startMatchmaking(
     teamCode: string,
-    discordId: string
+    discordId: string,
   ): Promise<void> {
-    if (!teamCode || !discordId) {
-      throw new Error("Invalid input");
+    if (this.matchmakingQueue.length >= this.REQUIRED_PLAYERS) {
+      new EmbedBuilder()
+        .setTitle("Error")
+        .setDescription("Matchmaking queue is full")
+        .setColor("Red");
     }
 
     await prisma.matchmaking.create({
@@ -19,6 +23,8 @@ export class MatchmakingService {
         discordId,
       },
     });
+
+    this.matchmakingQueue.push(teamCode);
   }
 
   public async cancelMatchmaking(): Promise<void> {}

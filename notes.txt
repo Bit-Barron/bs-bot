@@ -1,14 +1,19 @@
-Matchmaking: 
-    1. User kann matchmaking starten mit /matchmaking | FERTIG
-    2. Er kann denn Team Code eingeben denn er in brawlstars hat | FERTIG
-    3. Der TeamCode wird in der datenbank gespeichert mit der userId vom userId | FERTIG
-
+Matchmaking:
+    1. User kann Matchmaking starten mit /matchmaking | FERTIG
+    2. Er kann den Team Code eingeben, den er in Brawl Stars hat | FERTIG
+    3. Der Team Code wird in der Datenbank gespeichert mit der userId vom User | FERTIG
+    4. Teams werden automatisch erstellt, wenn genug Spieler in der Queue sind (z. B. 6 für ein 3v3).
+    5. Ein Link oder Code wird generiert und an die Team-Mitglieder gesendet, um das Spiel zu starten.
+    6. Nach dem Match werden die Ergebnisse gesammelt und in der Datenbank gespeichert.
+    7. Spielerstatistiken werden aktualisiert (z. B. Siege, Niederlagen, Punkte).
 SAVE-ID:
-    1. User kann BS Id speichern mit /save-id | FERTIG
-    2. Es wird überprüft ob der user existiert mit der brawlstars API | FERTIG
-    3. Der User wird in postgres DB gespeichert und in der QUEUE | FERTIG
-
-QUEUE-MANAGEMENT: 
-    - Ein Benutzer nicht mehrfach in die Queue gelangen kann.
-    - Benutzer automatisch aus der Queue entfernt werden, wenn sie z. B. ein Match beenden oder die Queue verlassen.
-
+    1. User kann Brawl Stars ID speichern mit /save-id | FERTIG
+    2. Es wird überprüft, ob der User existiert mit der Brawl Stars API | FERTIG
+    3. Der User wird in der Postgres-Datenbank gespeichert und in die Queue hinzugefügt | FERTIG
+    4. Validierung: Ein Benutzer kann nur eine einzige Brawl Stars ID speichern. | FERTIG
+QUEUE-MANAGEMENT:
+    1. Ein Benutzer kann nicht mehrfach in die Queue gelangen. | FERTIG
+    2. Benutzer werden automatisch aus der Queue entfernt, wenn sie ein Match beenden oder die Queue verlassen.
+    3. Benutzer können die Queue manuell verlassen mit einem Befehl wie /leave-queue.
+    4. Die Queue wird regelmäßig überprüft, um inaktive Benutzer zu entfernen (z. B. bei Timeout).
+    5. Es gibt ein Limit für die Anzahl von Spielern in der Queue (z. B. maximal 6 Spieler für ein Match).
