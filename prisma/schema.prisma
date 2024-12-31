@@ -12,23 +12,62 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+model Player {
+  id          String   @id @default(cuid()) // Eindeutige ID
+  discordId   String   @unique // Discord-ID des Spielers
+  brawlstarsId String   @unique // Brawl Stars ID des Spielers
+  elo         Int      @default(1000) // Standard ELO-Wert
+  matches     Match[]  @relation("PlayerMatches")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-model Matchmaking {
-  id              String   @id @default(cuid())
-  teamCode        String
-  discordId   String
+  Team Team[] @relation("PlayerMatches")
+
+  Lobby Lobby[]
 }
 
-model Player {
-  id           String   @id @default(cuid())
-  brawlstarsId String
-  discordId    String
-  createdAt    DateTime @default(now())
+model Match {
+  id          Int       @id @default(autoincrement()) // Eindeutige ID
+  team1       Team      @relation("Team1", fields: [team1Id], references: [id])
+  team1Id     Int
+  team2       Team      @relation("Team2", fields: [team2Id], references: [id])
+  team2Id     Int
+  map         String    // Zufällig ausgewählte Map
+  link        String?   // Link zur Lobby
+  winner      Team?     @relation("Winner", fields: [winnerId], references: [id])
+  winnerId    Int?
+  status      String    @default("ONGOING") // Status (ONGOING, COMPLETED, CANCELED)
+  validated   Boolean   @default(false) // Ob das Match validiert wurde
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  Player Player[] @relation("PlayerMatches")
+}
+
+model Team {
+  id          Int       @id @default(autoincrement()) // Eindeutige ID
+  teamCode    String    @unique // Team-Code (Brawl Stars Team-Code)
+  players     Player[]  @relation("PlayerMatches")
+  matchesAsTeam1 Match[] @relation("Team1")
+  matchesAsTeam2 Match[] @relation("Team2")
+  wonMatches  Match[]   @relation("Winner")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Queue {
-  id        String   @id @default(cuid())
-  discordId String
-  brawlstarsId String
-  createdAt DateTime @default(now())
+  id          Int       @id @default(autoincrement()) // Eindeutige ID
+  discordId   String    @unique // Discord-ID des Spielers in der Queue
+  createdAt   DateTime  @default(now())
+}
+
+model Lobby {
+  id          Int       @id @default(autoincrement()) // Eindeutige ID
+  teamCode    String    @unique // Lobby Team-Code
+  players     Player[]
+  map         String?   // Map in der Lobby
+  link        String?   // Link zur Lobby
+  status      String    @default("OPEN") // Status (OPEN, FULL, CLOSED)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }

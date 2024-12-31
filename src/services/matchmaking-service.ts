@@ -17,13 +17,6 @@ export class MatchmakingService {
         .setColor("Red");
     }
 
-    await prisma.matchmaking.create({
-      data: {
-        teamCode,
-        discordId,
-      },
-    });
-
     this.matchmakingQueue.push(teamCode);
   }
 

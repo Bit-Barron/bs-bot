@@ -12,7 +12,7 @@ export class QueueService {
 
     const existingQueue = await prisma.queue.findFirst({
       where: {
-        brawlstarsId: brawlStarsId,
+        discordId,
       },
     });
 
@@ -39,7 +39,6 @@ export class QueueService {
     try {
       await prisma.queue.create({
         data: {
-          brawlstarsId: brawlStarsId,
           discordId,
         },
       });
