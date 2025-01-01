@@ -4,7 +4,7 @@ import {
   EmbedBuilder,
   ApplicationCommandOptionType,
 } from "discord.js";
-import { QueueService } from "../../modules/matchmaking/queue-service";
+import { QueueService } from "../../modules/matchmaking/matchmaking-queue-service";
 import { PlayerService } from "../../modules/player/player-service";
 
 @Discord()
