@@ -1,17 +1,12 @@
+import { ResultType } from "../../types/global";
 import prisma from "../../utils/prisma";
-import { MatchmakingQueueService } from "../queue/queue.service";
 import { createPlayer, deletePlayer, deleteQueue } from "./player.repository";
-
-interface PlayerOperationResult {
-  success: boolean;
-  message?: string;
-}
 
 export class PlayerService {
   public async checkPlayerExists(
     brawlStarsId: string,
     discordId: string,
-  ): Promise<PlayerOperationResult> {
+  ): Promise<ResultType | undefined> {
     const formattedId = encodeURIComponent(`#${brawlStarsId}`);
     const url = `https://api.brawlstars.com/v1/players/${formattedId}`;
 
@@ -66,7 +61,7 @@ export class PlayerService {
     }
   }
 
-  public async removePlayer(discordId: string): Promise<PlayerOperationResult> {
+  public async removePlayer(discordId: string): Promise<ResultType> {
     try {
       deletePlayer(discordId);
       deleteQueue(discordId);

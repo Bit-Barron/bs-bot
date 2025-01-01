@@ -1,22 +1,20 @@
+import { ResultType } from "../../types/global";
 import prisma from "../../utils/prisma";
-import { createQueue, getQueue } from "./queue.repository";
+import {
+  createQueue,
+  findPlayer,
+  findQueue,
+  getQueue,
+} from "./queue.repository";
 
 export class QueueService {
   public async joinQueue(
     brawlStarsId: string,
     discordId: string,
-  ): Promise<{ success: boolean; message?: string }> {
-    const existingQueue = await prisma.queue.findFirst({
-      where: {
-        discordId,
-      },
-    });
+  ): Promise<ResultType> {
+    const existingQueue = await findQueue(discordId);
 
-    const existingPlayer = await prisma.player.findFirst({
-      where: {
-        brawlstarsId: brawlStarsId,
-      },
-    });
+    const existingPlayer = await findPlayer(brawlStarsId);
 
     if (!existingPlayer) {
       return {

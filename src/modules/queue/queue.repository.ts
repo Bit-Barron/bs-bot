@@ -12,3 +12,19 @@ export const createQueue = async (discordId: string, brawlStarsId: string) => {
 export const getQueue = async () => {
   return await prisma.queue.findMany();
 };
+
+export const findPlayer = async (brawlStarsId: string) => {
+  return await prisma.player.findFirst({
+    where: {
+      brawlstarsId: brawlStarsId,
+    },
+  });
+};
+
+export const findQueue = async (discordId: string) => {
+  return await prisma.queue.findFirst({
+    where: {
+      discordId,
+    },
+  });
+};

@@ -28,7 +28,6 @@ export class QueueCommand {
 
       await interaction.reply({ embeds: [embed] });
     } catch (error) {
-      console.error("Error fetching queue:", error);
       await interaction.reply({
         content: "An error occurred while fetching the queue.",
         ephemeral: true,

@@ -4,6 +4,8 @@ import {
   cancelMatchmaking,
   getMatchmakingByDiscordId,
 } from "./matchmaking.repository";
+import { ResultType } from "../../types/global";
+
 
 export class MatchmakingService {
   private readonly matchmakingQueue: string[] = [];
@@ -24,15 +26,13 @@ export class MatchmakingService {
 
   public async cancelMatchmaking(
     interaction: CommandInteraction,
-  ): Promise<void> {
+  ): Promise<ResultType | undefined> {
     const discordId = interaction.user.id;
 
     const existingRecord = getMatchmakingByDiscordId(discordId);
 
     if (!existingRecord) {
-      throw new Error(
-        "No matchmaking record found for the provided Discord ID",
-      );
+      return { success: false, message: "Already in the queue." };
     }
 
     cancelMatchmaking(discordId);
