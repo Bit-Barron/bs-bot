@@ -1,10 +1,7 @@
 import { Discord, Slash, SlashOption } from "discordx";
-import {
-  EmbedBuilder,
-  ApplicationCommandOptionType,
-  CommandInteraction,
-} from "discord.js";
+import { ApplicationCommandOptionType, CommandInteraction } from "discord.js";
 import { MatchmakingService } from "../../modules/matchmaking/matchmaking-manager-service";
+import { createEmbed } from "../../helpers";
 
 @Discord()
 export class Matchmaking {
@@ -33,22 +30,24 @@ export class Matchmaking {
 
       await this.matchmakingService.startMatchmaking(
         team_code,
-        interaction?.user.id,
+        interaction.user.id,
       );
 
-      const embed = new EmbedBuilder()
-        .setTitle("Matchmaking Started")
-        .setDescription(`Matchmaking started`)
-        .setColor("Green");
-
-      await interaction.editReply({ embeds: [embed] });
+      await interaction.editReply({
+        embeds: [
+          createEmbed("Matchmaking Started", "Matchmaking started", "Green"),
+        ],
+      });
     } catch (error) {
-      new EmbedBuilder()
-        .setTitle("Error")
-        .setDescription(
-          `An error occurred while adding the team to the queue: ${error}`,
-        )
-        .setColor("Red");
+      await interaction.editReply({
+        embeds: [
+          createEmbed(
+            "Error",
+            `An error occurred while adding the team to the queue: ${error}`,
+            "Red",
+          ),
+        ],
+      });
     }
   }
 
@@ -62,19 +61,25 @@ export class Matchmaking {
 
       await this.matchmakingService.cancelMatchmaking(interaction);
 
-      const embed = new EmbedBuilder()
-        .setTitle("Matchmaking Cancelled")
-        .setDescription(`Matchmaking cancelled`)
-        .setColor("Green");
-
-      await interaction.editReply({ embeds: [embed] });
+      await interaction.editReply({
+        embeds: [
+          createEmbed(
+            "Matchmaking Cancelled",
+            "Matchmaking cancelled",
+            "Green",
+          ),
+        ],
+      });
     } catch (error) {
-      new EmbedBuilder()
-        .setTitle("Error")
-        .setDescription(
-          `An error occurred while cancelling the matchmaking: ${error}`,
-        )
-        .setColor("Red");
+      await interaction.editReply({
+        embeds: [
+          createEmbed(
+            "Error",
+            `An error occurred while cancelling the matchmaking: ${error}`,
+            "Red",
+          ),
+        ],
+      });
     }
   }
 }

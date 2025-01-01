@@ -1,10 +1,12 @@
-export const parseTeamCode = (teamCode: string): string => {
-  teamCode = teamCode.trim().toUpperCase();
+import { ColorResolvable, EmbedBuilder } from "discord.js";
 
-  const validFormat = /^[A-Z0-9]{6,8}$/;
-  if (!validFormat.test(teamCode)) {
-    throw new Error("Invalid team code format");
-  }
-
-  return teamCode;
+export const createEmbed = (
+  title: string,
+  description: string,
+  color: ColorResolvable,
+) => {
+  return new EmbedBuilder()
+    .setTitle(title)
+    .setDescription(description)
+    .setColor(color);
 };
