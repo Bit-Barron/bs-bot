@@ -1,6 +1,11 @@
 import prisma from "../utils/prisma";
 import { QueueService } from "./queue-service";
 
+interface PlayerExistenProps {
+  success: boolean;
+  message: string;
+}
+
 export class PlayerService {
   private readonly BASE_URL = "https://api.brawlstars.com/v1/players/";
   private queueService: QueueService;
