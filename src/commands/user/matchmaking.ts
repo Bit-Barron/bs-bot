@@ -18,7 +18,7 @@ export class Matchmaking {
     name: "start-matchmaking",
     description: "Tritt einer Matchmaking-Queue bei",
   })
-  async matchmaking(
+  async startMatchmaking(
     @SlashOption({
       name: "team_code",
       description: "Dein Team-Code (z.B. X6ABG99)",
@@ -38,7 +38,7 @@ export class Matchmaking {
 
       const embed = new EmbedBuilder()
         .setTitle("Matchmaking Started")
-        .setDescription(`Matchmaking started `)
+        .setDescription(`Matchmaking started`)
         .setColor("Green");
 
       await interaction.editReply({ embeds: [embed] });
@@ -47,6 +47,30 @@ export class Matchmaking {
         .setTitle("Error")
         .setDescription(
           `An error occurred while adding the team to the queue: ${error}`,
+        )
+        .setColor("Red");
+    }
+  }
+
+  @Slash({
+    name: "cancel-matchmaking",
+    description: "Verlasse die Matchmaking-Queue",
+  })
+  async cancelMatchmaking(interaction: CommandInteraction): Promise<void> {
+    try {
+      await interaction.deferReply();
+
+      const embed = new EmbedBuilder()
+        .setTitle("Matchmaking Cancelled")
+        .setDescription(`Matchmaking cancelled`)
+        .setColor("Green");
+
+      await interaction.editReply({ embeds: [embed] });
+    } catch (error) {
+      new EmbedBuilder()
+        .setTitle("Error")
+        .setDescription(
+          `An error occurred while cancelling the matchmaking: ${error}`,
         )
         .setColor("Red");
     }

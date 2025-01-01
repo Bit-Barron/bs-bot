@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { CommandInteraction, EmbedBuilder } from "discord.js";
 import prisma from "../utils/prisma";
 
 export class MatchmakingService {
@@ -17,8 +17,23 @@ export class MatchmakingService {
         .setColor("Red");
     }
 
-    this.matchmakingQueue.push(teamCode);
+    await prisma.matchmaking.create({
+      data: {
+        teamCode,
+        discordId,
+      },
+    });
   }
 
-  public async cancelMatchmaking(): Promise<void> {}
+  public async cancelMatchmaking(
+    interaction: CommandInteraction,
+  ): Promise<void> {
+    const discordId = interaction.user.id;
+
+    await prisma.matchmaking.deleteMany({
+      where: {
+        discordId,
+      },
+    });
+  }
 }
