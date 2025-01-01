@@ -1,5 +1,5 @@
 import prisma from "../../utils/prisma";
-import { QueueService } from "../matchmaking/matchmaking-queue-service";
+import { MatchmakingQueueService } from "../matchmaking/matchmaking-queue-service";
 
 interface PlayerOperationResult {
   success: boolean;
@@ -8,10 +8,10 @@ interface PlayerOperationResult {
 
 export class PlayerService {
   private readonly BASE_URL = "https://api.brawlstars.com/v1/players/";
-  private queueService: QueueService;
+  private queueService: MatchmakingQueueService;
 
   constructor() {
-    this.queueService = new QueueService();
+    this.queueService = new MatchmakingQueueService();
   }
 
   public async checkPlayerExists(

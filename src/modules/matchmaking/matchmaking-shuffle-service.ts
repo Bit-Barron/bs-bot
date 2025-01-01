@@ -1,6 +1,6 @@
 import prisma from "../../utils/prisma";
 
-export class TeamShufflingService {
+export class MatchmakingShuffleService {
   public async shuffleTeams(): Promise<{
     team1: string[];
     team2: string[];

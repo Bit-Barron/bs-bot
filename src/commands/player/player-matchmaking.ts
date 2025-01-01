@@ -4,7 +4,7 @@ import {
   ApplicationCommandOptionType,
   CommandInteraction,
 } from "discord.js";
-import { MatchmakingService } from "../../modules/matchmaking/matchmaking-service";
+import { MatchmakingService } from "../../modules/matchmaking/matchmaking-manager-service";
 
 @Discord()
 export class Matchmaking {

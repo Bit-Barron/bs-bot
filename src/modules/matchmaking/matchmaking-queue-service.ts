@@ -2,7 +2,7 @@
 
 import prisma from "../../utils/prisma";
 
-export class QueueService {
+export class MatchmakingQueueService {
   public async joinQueue(
     brawlStarsId: string,
     discordId: string,

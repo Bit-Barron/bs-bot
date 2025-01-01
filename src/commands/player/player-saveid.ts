@@ -4,17 +4,17 @@ import {
   EmbedBuilder,
   ApplicationCommandOptionType,
 } from "discord.js";
-import { QueueService } from "../../modules/matchmaking/matchmaking-queue-service";
+import { MatchmakingQueueService } from "../../modules/matchmaking/matchmaking-queue-service";
 import { PlayerService } from "../../modules/player/player-service";
 
 @Discord()
 export class SaveId {
   private playerService: PlayerService;
-  private queueService: QueueService;
+  private queueService: MatchmakingQueueService;
 
   constructor() {
     this.playerService = new PlayerService();
-    this.queueService = new QueueService();
+    this.queueService = new MatchmakingQueueService();
   }
 
   @Slash({
