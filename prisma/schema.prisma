@@ -14,6 +14,20 @@ enum Status {
   CANCELLED
 }
 
+enum MatchStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+model Match {
+  id        String      @id @default(cuid())
+  team1     String      
+  team2     String      
+  status    MatchStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+}
+
 model Matchmaking {
   id              String   @id @default(cuid())
   teamCode        String

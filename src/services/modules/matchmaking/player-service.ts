@@ -56,13 +56,13 @@ export class PlayerService {
         where: { discordId },
       });
 
-      if (playerWithDiscordId) {
-        return {
-          success: false,
-          message:
-            "You have already saved a Brawl Stars ID. Only one ID is allowed per Discord account.",
-        };
-      }
+      // if (playerWithDiscordId) {
+      // return {
+      //   success: false,
+      //   message:
+      //     "You have already saved a Brawl Stars ID. Only one ID is allowed per Discord account.",
+      // };
+      //  }
 
       await prisma.player.create({
         data: {
