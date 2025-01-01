@@ -1,11 +1,11 @@
-import { EmbedBuilder } from "discord.js";
+// queue-service.ts
 import prisma from "../../../utils/prisma";
 
 export class QueueService {
   public async joinQueue(
     brawlStarsId: string,
     discordId: string,
-  ): Promise<boolean> {
+  ): Promise<{ success: boolean; message?: string }> {
     const existingQueue = await prisma.queue.findFirst({
       where: {
         discordId,
@@ -19,17 +19,14 @@ export class QueueService {
     });
 
     if (!existingPlayer) {
-      new EmbedBuilder()
-        .setTitle("Error")
-        .setDescription("Player not found. Please check your Brawl Stars ID.")
-        .setColor("Red");
+      return {
+        success: false,
+        message: "Player not found. Please check your Brawl Stars ID.",
+      };
     }
 
     if (existingQueue) {
-      new EmbedBuilder()
-        .setTitle("Error")
-        .setDescription("Already in the queue.")
-        .setColor("Red");
+      return { success: false, message: "Already in the queue." };
     }
 
     try {
@@ -40,14 +37,9 @@ export class QueueService {
         },
       });
 
-      return true;
+      return { success: true };
     } catch (error) {
-      new EmbedBuilder()
-        .setTitle("Error")
-        .setDescription("Failed to join the queue.")
-        .setColor("Red");
-
-      return false;
+      return { success: false, message: "Failed to join the queue." };
     }
   }
 }
