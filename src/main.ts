@@ -1,7 +1,6 @@
-import { dirname, importx } from "@discordx/importer";
+import { importx } from "@discordx/importer";
 
 import { log } from "console";
-import { ActivityType } from "discord.js";
 import { Client } from "discordx";
 
 const token = process.env.DISCORD_BOT_TOKEN;
@@ -20,14 +19,14 @@ bot.once("ready", async () => {
 
 bot.on(
   "interactionCreate",
-  (interaction) => void bot.executeInteraction(interaction)
+  (interaction) => void bot.executeInteraction(interaction),
 );
 
 bot.on("messageCreate", (message) => void bot.executeCommand(message));
 
 bot.on(
   "messageReactionAdd",
-  (reaction, user) => void bot.executeReaction(reaction, user)
+  (reaction, user) => void bot.executeReaction(reaction, user),
 );
 
 const main = async () => {
