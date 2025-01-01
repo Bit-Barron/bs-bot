@@ -1,5 +1,6 @@
 import prisma from "../../utils/prisma";
 import { MatchmakingQueueService } from "../queue/queue.service";
+import { createPlayer, deletePlayer, deleteQueue } from "./player.repository";
 
 interface PlayerOperationResult {
   success: boolean;
@@ -7,19 +8,12 @@ interface PlayerOperationResult {
 }
 
 export class PlayerService {
-  private readonly BASE_URL = "https://api.brawlstars.com/v1/players/";
-  private queueService: MatchmakingQueueService;
-
-  constructor() {
-    this.queueService = new MatchmakingQueueService();
-  }
-
   public async checkPlayerExists(
     brawlStarsId: string,
     discordId: string,
   ): Promise<PlayerOperationResult> {
     const formattedId = encodeURIComponent(`#${brawlStarsId}`);
-    const url = `${this.BASE_URL}${formattedId}`;
+    const url = `https://api.brawlstars.com/v1/players/${formattedId}`;
 
     try {
       const response = await fetch(url, {
@@ -28,16 +22,10 @@ export class PlayerService {
         },
       });
 
-      if (!response.ok) {
-        if (response.status === 404) {
-          return {
-            success: false,
-            message: "Player not found. Please check your Brawl Stars ID.",
-          };
-        }
+      if (response.status === 404) {
         return {
           success: false,
-          message: "Failed to fetch player data from Brawl Stars API.",
+          message: "Player not found. Please check your Brawl Stars ID.",
         };
       }
 
@@ -64,12 +52,7 @@ export class PlayerService {
       // };
       //  }
 
-      await prisma.player.create({
-        data: {
-          brawlstarsId: brawlStarsId,
-          discordId,
-        },
-      });
+      createPlayer(brawlStarsId, discordId);
 
       return {
         success: true,
@@ -85,8 +68,8 @@ export class PlayerService {
 
   public async removePlayer(discordId: string): Promise<PlayerOperationResult> {
     try {
-      await prisma.player.deleteMany({ where: { discordId } });
-      await prisma.queue.deleteMany({ where: { discordId } });
+      deletePlayer(discordId);
+      deleteQueue(discordId);
 
       return { success: true };
     } catch (error) {
