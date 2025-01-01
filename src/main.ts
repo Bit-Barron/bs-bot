@@ -1,7 +1,7 @@
 import { dirname, importx } from "@discordx/importer";
 
 import { log } from "console";
-import { ActivityType, GatewayIntentBits, Partials } from "discord.js";
+import { ActivityType } from "discord.js";
 import { Client } from "discordx";
 
 const token = process.env.DISCORD_BOT_TOKEN;
@@ -33,17 +33,10 @@ bot.on(
 const main = async () => {
   await importx(`${__dirname}/{events,commands}/**/*.{ts,js}`);
 
-  // Let's start the bot
   if (!token) {
     throw Error("Could not find TOKEN in your environment");
   }
-
-  // Log in with your bot token
   await bot.login(token);
-
-  bot.user?.setPresence({
-    activities: [{ name: ".gg/coding", type: ActivityType.Watching }],
-  });
 };
 
 main();
