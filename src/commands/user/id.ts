@@ -5,13 +5,16 @@ import {
   ApplicationCommandOptionType,
 } from "discord.js";
 import { PlayerService } from "../../services/modules/matchmaking/player-service";
+import { QueueService } from "../../services/modules/matchmaking/queue-service";
 
 @Discord()
 export class SaveId {
   private playerService: PlayerService;
+  private queueService: QueueService;
 
   constructor() {
     this.playerService = new PlayerService();
+    this.queueService = new QueueService();
   }
 
   @Slash({
@@ -35,6 +38,8 @@ export class SaveId {
         brawlStarsId,
         interaction.user.id,
       );
+
+      await this.queueService.joinQueue(brawlStarsId, interaction.user.id);
 
       const embed = new EmbedBuilder()
         .setTitle(result.success ? "Success" : "Error")

@@ -22,6 +22,7 @@ export class PlayerService {
     const url = `${this.BASE_URL}${formattedId}`;
 
     try {
+      // Check if player exists
       const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${process.env.BRAWL_STARS_API_KEY}`,
@@ -35,6 +36,7 @@ export class PlayerService {
         };
       }
 
+      // Check if player is already saved
       const existingPlayer = await prisma.player.findFirst({
         where: { brawlstarsId: brawlStarsId },
       });
@@ -46,11 +48,12 @@ export class PlayerService {
         };
       }
 
-      const discordHasSavedId = await prisma.player.findFirst({
+      // Check if player is already in the queue
+      const playerAlreadyInQueue = await prisma.player.findFirst({
         where: { discordId },
       });
 
-      if (discordHasSavedId) {
+      if (playerAlreadyInQueue) {
         return {
           success: false,
           message:
@@ -64,8 +67,6 @@ export class PlayerService {
           discordId,
         },
       });
-
-      await this.queueService.joinQueue(brawlStarsId, discordId);
 
       return {
         success: true,
