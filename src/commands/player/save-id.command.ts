@@ -6,6 +6,7 @@ import {
 } from "discord.js";
 import { PlayerService } from "../../modules/player/player.service";
 import { QueueService } from "../../modules/queue/queue.service";
+import { createEmbed } from "../../helpers/discord.helper";
 
 @Discord()
 export class SaveIdCommand {
@@ -43,12 +44,15 @@ export class SaveIdCommand {
 
       await interaction.editReply({ embeds: [embed] });
     } catch (error) {
-      const errorEmbed = new EmbedBuilder()
-        .setTitle("Error")
-        .setDescription(`An unexpected error occurred: ${error}`)
-        .setColor("Red");
-
-      await interaction.editReply({ embeds: [errorEmbed] });
+      await interaction.editReply({
+        embeds: [
+          createEmbed(
+            "Error",
+            `An error occurred while saving your Brawl Stars ID: ${error}`,
+            "Red",
+          ),
+        ],
+      });
     }
   }
 }

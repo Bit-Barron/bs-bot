@@ -38,7 +38,7 @@ model Matchmaking {
 
 model Player {
   id           String   @id @default(cuid())
-  brawlstarsId String
+  brawlStarsId String
   discordId    String
   createdAt    DateTime @default(now())
 }

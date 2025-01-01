@@ -1,6 +1,7 @@
 import { Discord, Slash } from "discordx";
 import { CommandInteraction, EmbedBuilder } from "discord.js";
 import prisma from "../../utils/prisma";
+import { createEmbed } from "../../helpers/discord.helper";
 
 @Discord()
 export class MeCommand {
@@ -19,28 +20,37 @@ export class MeCommand {
       });
 
       if (!getUser) {
-        const embed = new EmbedBuilder()
-          .setTitle("Fehler")
-          .setDescription("Du hast noch keine Brawl Stars ID gespeichert.")
-          .setColor("Red");
-
-        await interaction.editReply({ embeds: [embed] });
+        await interaction.editReply({
+          embeds: [
+            createEmbed(
+              "Error",
+              "Du hast keine Brawl Stars ID gespeichert.",
+              "Red",
+            ),
+          ],
+        });
         return;
       }
 
-      const embed = new EmbedBuilder()
-        .setTitle("Deine Informationen")
-        .setDescription(`Brawl Stars ID: ${getUser.brawlstarsId}`)
-        .setColor("Blue");
-
-      await interaction.editReply({ embeds: [embed] });
+      await interaction.editReply({
+        embeds: [
+          createEmbed(
+            "Deine Brawl Stars ID",
+            `Deine Brawl Stars ID ist: \`${getUser.brawlstarsId}\``,
+            "Green",
+          ),
+        ],
+      });
     } catch (error) {
-      const errorEmbed = new EmbedBuilder()
-        .setTitle("Error")
-        .setDescription(`An unexpected error occurred: ${error}`)
-        .setColor("Red");
-
-      await interaction.editReply({ embeds: [errorEmbed] });
+      await interaction.editReply({
+        embeds: [
+          createEmbed(
+            "Error",
+            `An error occurred while fetching your Brawl Stars ID: ${error}`,
+            "Red",
+          ),
+        ],
+      });
     }
   }
 }
