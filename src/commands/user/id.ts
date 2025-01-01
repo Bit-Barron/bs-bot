@@ -4,7 +4,7 @@ import {
   EmbedBuilder,
   ApplicationCommandOptionType,
 } from "discord.js";
-import { PlayerService } from "../../services/modules/player-service";
+import { PlayerService } from "../../services/modules/matchmaking/player-service";
 
 @Discord()
 export class SaveId {
