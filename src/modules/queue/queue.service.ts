@@ -1,7 +1,7 @@
 import prisma from "../../utils/prisma";
-import { createQueue } from "./queue.repository";
+import { createQueue, getQueue } from "./queue.repository";
 
-export class MatchmakingQueueService {
+export class QueueService {
   public async joinQueue(
     brawlStarsId: string,
     discordId: string,
@@ -36,5 +36,17 @@ export class MatchmakingQueueService {
     } catch (error) {
       return { success: false, message: "Failed to join the queue." };
     }
+  }
+
+  public async QueueList(): Promise<string> {
+    const queue = await getQueue();
+
+    if (queue.length === 0) {
+      return "";
+    }
+
+    const queueList = queue.map((player) => player.brawlstarsId);
+
+    return queueList.join("\n");
   }
 }

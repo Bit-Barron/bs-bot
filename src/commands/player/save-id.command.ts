@@ -5,12 +5,12 @@ import {
   EmbedBuilder,
 } from "discord.js";
 import { PlayerService } from "../../modules/player/player.service";
-import { MatchmakingQueueService } from "../../modules/queue/queue.service";
+import { QueueService } from "../../modules/queue/queue.service";
 
 @Discord()
 export class SaveIdCommand {
   private playerService = new PlayerService();
-  private queueService = new MatchmakingQueueService();
+  private queueService = new QueueService();
 
   @Slash({
     name: "save-id",

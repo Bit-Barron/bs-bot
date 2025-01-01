@@ -8,3 +8,7 @@ export const createQueue = async (discordId: string, brawlStarsId: string) => {
     },
   });
 };
+
+export const getQueue = async () => {
+  return await prisma.queue.findMany();
+};
