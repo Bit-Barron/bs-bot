@@ -1,9 +1,9 @@
 import prisma from "../../../utils/prisma";
 import { QueueService } from "./queue-service";
 
-interface PlayerExistenProps {
+interface PlayerOperationResult {
   success: boolean;
-  message: string;
+  message?: string;
 }
 
 export class PlayerService {
@@ -17,26 +17,30 @@ export class PlayerService {
   public async checkPlayerExists(
     brawlStarsId: string,
     discordId: string,
-  ): Promise<{ success: boolean; message: string }> {
+  ): Promise<PlayerOperationResult> {
     const formattedId = encodeURIComponent(`#${brawlStarsId}`);
     const url = `${this.BASE_URL}${formattedId}`;
 
     try {
-      // Check if player exists
       const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${process.env.BRAWL_STARS_API_KEY}`,
         },
       });
 
-      if (response.status === 404) {
+      if (!response.ok) {
+        if (response.status === 404) {
+          return {
+            success: false,
+            message: "Player not found. Please check your Brawl Stars ID.",
+          };
+        }
         return {
           success: false,
-          message: "Player not found. Please check your Brawl Stars ID.",
+          message: "Failed to fetch player data from Brawl Stars API.",
         };
       }
 
-      // Check if player is already saved
       const existingPlayer = await prisma.player.findFirst({
         where: { brawlstarsId: brawlStarsId },
       });
@@ -44,16 +48,15 @@ export class PlayerService {
       if (existingPlayer) {
         return {
           success: false,
-          message: "Player already saved",
+          message: "Player already saved.",
         };
       }
 
-      // Check if player is already in the queue
-      const playerAlreadyInQueue = await prisma.player.findFirst({
+      const playerWithDiscordId = await prisma.player.findFirst({
         where: { discordId },
       });
 
-      if (playerAlreadyInQueue) {
+      if (playerWithDiscordId) {
         return {
           success: false,
           message:
@@ -73,20 +76,22 @@ export class PlayerService {
         message: "Player successfully saved and added to the queue.",
       };
     } catch (error) {
+      console.error("Error checking player existence:", error);
       return {
         success: false,
-        message: `Failed to check user existence: ${error}`,
+        message: "Failed to check user existence.",
       };
     }
   }
 
-  public async removePlayer(discordId: string): Promise<{ success: boolean }> {
+  public async removePlayer(discordId: string): Promise<PlayerOperationResult> {
     try {
       await prisma.player.deleteMany({ where: { discordId } });
       await prisma.queue.deleteMany({ where: { discordId } });
 
       return { success: true };
     } catch (error) {
+      console.error("Error removing player:", error);
       return { success: false };
     }
   }

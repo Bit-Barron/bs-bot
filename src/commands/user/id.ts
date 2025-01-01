@@ -43,7 +43,7 @@ export class SaveId {
 
       const embed = new EmbedBuilder()
         .setTitle(result.success ? "Success" : "Error")
-        .setDescription(result.message)
+        .setDescription(result.message as string)
         .setColor(result.success ? "Green" : "Red");
 
       await interaction.editReply({ embeds: [embed] });
