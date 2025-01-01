@@ -1,5 +1,5 @@
 import { CommandInteraction, EmbedBuilder } from "discord.js";
-import prisma from "../utils/prisma";
+import prisma from "../../utils/prisma";
 
 export class MatchmakingService {
   private readonly matchmakingQueue: string[] = [];
@@ -30,10 +30,19 @@ export class MatchmakingService {
   ): Promise<void> {
     const discordId = interaction.user.id;
 
-    await prisma.matchmaking.deleteMany({
-      where: {
-        discordId,
-      },
+    const existingRecord = await prisma.matchmaking.findUnique({
+      where: { discordId },
+    });
+
+    if (!existingRecord) {
+      throw new Error(
+        "No matchmaking record found for the provided Discord ID",
+      );
+    }
+
+    await prisma.matchmaking.update({
+      where: { discordId },
+      data: { status: "CANCELLED" },
     });
   }
 }

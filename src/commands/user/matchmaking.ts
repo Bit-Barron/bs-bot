@@ -4,7 +4,7 @@ import {
   ApplicationCommandOptionType,
   CommandInteraction,
 } from "discord.js";
-import { MatchmakingService } from "../../services/matchmaking-service";
+import { MatchmakingService } from "../../services/modules/matchmaking-service";
 
 @Discord()
 export class Matchmaking {
@@ -59,6 +59,8 @@ export class Matchmaking {
   async cancelMatchmaking(interaction: CommandInteraction): Promise<void> {
     try {
       await interaction.deferReply();
+
+      await this.matchmakingService.cancelMatchmaking(interaction);
 
       const embed = new EmbedBuilder()
         .setTitle("Matchmaking Cancelled")

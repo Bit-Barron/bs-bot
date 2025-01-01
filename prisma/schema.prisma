@@ -17,7 +17,7 @@ enum Status {
 model Matchmaking {
   id              String   @id @default(cuid())
   teamCode        String
-  discordId       String
+  discordId       String   @unique
   status          Status   @default(PENDING)
   createdAt       DateTime @default(now())
 }
