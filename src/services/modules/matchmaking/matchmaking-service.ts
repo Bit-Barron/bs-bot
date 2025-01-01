@@ -39,6 +39,7 @@ export class MatchmakingService {
         "No matchmaking record found for the provided Discord ID",
       );
     }
+    
 
     await prisma.matchmaking.update({
       where: { discordId },
