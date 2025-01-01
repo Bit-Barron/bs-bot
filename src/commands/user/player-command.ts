@@ -5,7 +5,7 @@ import {
   ApplicationCommandOptionType,
 } from "discord.js";
 import { QueueService } from "../../modules/matchmaking/queue-service";
-import { PlayerService } from "../../modules/matchmaking/player-service";
+import { PlayerService } from "../../modules/player/player-service";
 
 @Discord()
 export class SaveId {

@@ -1,5 +1,5 @@
-import prisma from "../../../utils/prisma";
-import { QueueService } from "./queue-service";
+import prisma from "../../utils/prisma";
+import { QueueService } from "../matchmaking/queue-service";
 
 interface PlayerOperationResult {
   success: boolean;

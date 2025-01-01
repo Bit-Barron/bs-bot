@@ -1,5 +1,6 @@
 // queue-service.ts
-import prisma from "../../../utils/prisma";
+
+import prisma from "../../utils/prisma";
 
 export class QueueService {
   public async joinQueue(
