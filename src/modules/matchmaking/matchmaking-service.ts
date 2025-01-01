@@ -1,5 +1,9 @@
 import { CommandInteraction, EmbedBuilder } from "discord.js";
-import prisma from "../../utils/prisma";
+import {
+  createMatchmaking,
+  cancelMatchmaking,
+  getMatchmakingByDiscordId,
+} from "./matchmaking.repository";
 
 export class MatchmakingService {
   private readonly matchmakingQueue: string[] = [];
@@ -15,13 +19,7 @@ export class MatchmakingService {
         .setDescription("Matchmaking queue is full")
         .setColor("Red");
     }
-
-    await prisma.matchmaking.create({
-      data: {
-        teamCode: brawlStarsTeamCode,
-        discordId,
-      },
-    });
+    await createMatchmaking(brawlStarsTeamCode, discordId);
   }
 
   public async cancelMatchmaking(
@@ -29,9 +27,7 @@ export class MatchmakingService {
   ): Promise<void> {
     const discordId = interaction.user.id;
 
-    const existingRecord = await prisma.matchmaking.findUnique({
-      where: { discordId },
-    });
+    const existingRecord = getMatchmakingByDiscordId(discordId);
 
     if (!existingRecord) {
       throw new Error(
@@ -39,9 +35,6 @@ export class MatchmakingService {
       );
     }
 
-    await prisma.matchmaking.update({
-      where: { discordId },
-      data: { status: "CANCELLED" },
-    });
+    cancelMatchmaking(discordId);
   }
 }

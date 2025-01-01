@@ -1,4 +1,5 @@
 import prisma from "../../utils/prisma";
+import { createQueue } from "./queue.repository";
 
 export class MatchmakingQueueService {
   public async joinQueue(
@@ -29,12 +30,7 @@ export class MatchmakingQueueService {
     }
 
     try {
-      await prisma.queue.create({
-        data: {
-          discordId,
-          brawlstarsId: brawlStarsId,
-        },
-      });
+      createQueue(discordId, brawlStarsId);
 
       return { success: true };
     } catch (error) {
