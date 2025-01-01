@@ -1,6 +1,20 @@
 -- CreateEnum
 CREATE TYPE "Status" AS ENUM ('PENDING', 'COMPLETED', 'CANCELLED');
 
+-- CreateEnum
+CREATE TYPE "MatchStatus" AS ENUM ('PENDING', 'COMPLETED', 'CANCELLED');
+
+-- CreateTable
+CREATE TABLE "Match" (
+    "id" TEXT NOT NULL,
+    "team1" TEXT NOT NULL,
+    "team2" TEXT NOT NULL,
+    "status" "MatchStatus" NOT NULL DEFAULT 'PENDING',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Match_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateTable
 CREATE TABLE "Matchmaking" (
     "id" TEXT NOT NULL,
@@ -31,3 +45,6 @@ CREATE TABLE "Queue" (
 
     CONSTRAINT "Queue_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Matchmaking_discordId_key" ON "Matchmaking"("discordId");
