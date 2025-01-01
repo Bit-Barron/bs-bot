@@ -76,7 +76,6 @@ export class PlayerService {
         message: "Player successfully saved and added to the queue.",
       };
     } catch (error) {
-      console.error("Error checking player existence:", error);
       return {
         success: false,
         message: "Failed to check user existence.",
@@ -91,7 +90,6 @@ export class PlayerService {
 
       return { success: true };
     } catch (error) {
-      console.error("Error removing player:", error);
       return { success: false };
     }
   }

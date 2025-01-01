@@ -37,7 +37,6 @@ export class Me {
 
       await interaction.editReply({ embeds: [embed] });
     } catch (error) {
-      console.error("Error in /me command:", error);
       await interaction.editReply(
         "Es gab einen Fehler beim Ausführen des Befehls.",
       );

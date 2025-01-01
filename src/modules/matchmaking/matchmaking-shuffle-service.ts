@@ -9,7 +9,6 @@ export class MatchmakingShuffleService {
       const players = await prisma.queue.findMany();
 
       if (players.length < 6) {
-        console.log("Not enough players in the queue to form two teams.");
         return null;
       }
 
@@ -22,7 +21,6 @@ export class MatchmakingShuffleService {
 
       return { team1, team2 };
     } catch (error) {
-      console.error("Error shuffling teams:", error);
       return null;
     }
   }
