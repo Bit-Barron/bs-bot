@@ -1,23 +1,21 @@
-import { CommandInteraction, EmbedBuilder } from "discord.js";
 import { Discord, Slash } from "discordx";
+import { CommandInteraction, EmbedBuilder } from "discord.js";
 import prisma from "../../utils/prisma";
 
 @Discord()
-export class Me {
+export class MeCommand {
   @Slash({
     name: "me",
     description: "Zeigt Informationen über dich an",
   })
-  async me(interaction: CommandInteraction): Promise<void> {
+  async execute(interaction: CommandInteraction): Promise<void> {
     try {
       await interaction.deferReply();
 
       const discordId = interaction.user.id;
 
       const getUser = await prisma.player.findFirst({
-        where: {
-          discordId,
-        },
+        where: { discordId },
       });
 
       if (!getUser) {
@@ -37,9 +35,12 @@ export class Me {
 
       await interaction.editReply({ embeds: [embed] });
     } catch (error) {
-      await interaction.editReply(
-        "Es gab einen Fehler beim Ausführen des Befehls.",
-      );
+      const errorEmbed = new EmbedBuilder()
+        .setTitle("Error")
+        .setDescription(`An unexpected error occurred: ${error}`)
+        .setColor("Red");
+
+      await interaction.editReply({ embeds: [errorEmbed] });
     }
   }
 }

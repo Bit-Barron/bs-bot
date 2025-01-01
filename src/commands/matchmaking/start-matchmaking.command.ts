@@ -1,10 +1,10 @@
 import { Discord, Slash, SlashOption } from "discordx";
-import { ApplicationCommandOptionType, CommandInteraction } from "discord.js";
+import { CommandInteraction, ApplicationCommandOptionType } from "discord.js";
 import { MatchmakingService } from "../../modules/matchmaking/matchmaking.service";
 import { createEmbed } from "../../helpers/discord.helper";
 
 @Discord()
-export class Matchmaking {
+export class StartMatchmaking {
   private matchmakingService: MatchmakingService;
 
   constructor() {
@@ -15,7 +15,7 @@ export class Matchmaking {
     name: "start-matchmaking",
     description: "Tritt einer Matchmaking-Queue bei",
   })
-  async startMatchmaking(
+  async execute(
     @SlashOption({
       name: "team_code",
       description: "Dein Team-Code (z.B. X6ABG99)",
@@ -44,38 +44,6 @@ export class Matchmaking {
           createEmbed(
             "Error",
             `An error occurred while adding the team to the queue: ${error}`,
-            "Red",
-          ),
-        ],
-      });
-    }
-  }
-
-  @Slash({
-    name: "cancel-matchmaking",
-    description: "Verlasse die Matchmaking-Queue",
-  })
-  async cancelMatchmaking(interaction: CommandInteraction): Promise<void> {
-    try {
-      await interaction.deferReply();
-
-      await this.matchmakingService.cancelMatchmaking(interaction);
-
-      await interaction.editReply({
-        embeds: [
-          createEmbed(
-            "Matchmaking Cancelled",
-            "Matchmaking cancelled",
-            "Green",
-          ),
-        ],
-      });
-    } catch (error) {
-      await interaction.editReply({
-        embeds: [
-          createEmbed(
-            "Error",
-            `An error occurred while cancelling the matchmaking: ${error}`,
             "Red",
           ),
         ],

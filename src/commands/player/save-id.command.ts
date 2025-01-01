@@ -1,27 +1,22 @@
 import { Discord, Slash, SlashOption } from "discordx";
 import {
   CommandInteraction,
-  EmbedBuilder,
   ApplicationCommandOptionType,
+  EmbedBuilder,
 } from "discord.js";
-import { MatchmakingQueueService } from "../../modules/queue/queue.service";
 import { PlayerService } from "../../modules/player/player.service";
+import { MatchmakingQueueService } from "../../modules/queue/queue.service";
 
 @Discord()
-export class SaveId {
-  private playerService: PlayerService;
-  private queueService: MatchmakingQueueService;
-
-  constructor() {
-    this.playerService = new PlayerService();
-    this.queueService = new MatchmakingQueueService();
-  }
+export class SaveIdCommand {
+  private playerService = new PlayerService();
+  private queueService = new MatchmakingQueueService();
 
   @Slash({
     name: "save-id",
     description: "Save your Brawl Stars ID",
   })
-  async saveid(
+  async execute(
     @SlashOption({
       name: "id",
       description: "Your Brawl Stars ID",
@@ -44,36 +39,6 @@ export class SaveId {
       const embed = new EmbedBuilder()
         .setTitle(result.success ? "Success" : "Error")
         .setDescription(result.message as string)
-        .setColor(result.success ? "Green" : "Red");
-
-      await interaction.editReply({ embeds: [embed] });
-    } catch (error) {
-      const errorEmbed = new EmbedBuilder()
-        .setTitle("Error")
-        .setDescription(`An unexpected error occurred: ${error}`)
-        .setColor("Red");
-
-      await interaction.editReply({ embeds: [errorEmbed] });
-    }
-  }
-
-  @Slash({
-    name: "remove-id",
-    description: "Remove your Brawl Stars ID",
-  })
-  async removeid(interaction: CommandInteraction): Promise<void> {
-    try {
-      await interaction.deferReply();
-
-      const result = await this.playerService.removePlayer(interaction.user.id);
-
-      const embed = new EmbedBuilder()
-        .setTitle(result.success ? "Success" : "Error")
-        .setDescription(
-          result.success
-            ? "Player successfully removed."
-            : "Failed to remove player.",
-        )
         .setColor(result.success ? "Green" : "Red");
 
       await interaction.editReply({ embeds: [embed] });
