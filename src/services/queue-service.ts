@@ -6,10 +6,6 @@ export class QueueService {
     brawlStarsId: string,
     discordId: string,
   ): Promise<boolean> {
-    if (!brawlStarsId) {
-      throw new Error("Invalid input: Brawl Stars ID is required.");
-    }
-
     const existingQueue = await prisma.queue.findFirst({
       where: {
         discordId,
@@ -40,7 +36,7 @@ export class QueueService {
       await prisma.queue.create({
         data: {
           discordId,
-          brawlstarsId: brawlStarsId
+          brawlstarsId: brawlStarsId,
         },
       });
 

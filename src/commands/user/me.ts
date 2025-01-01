@@ -1,5 +1,6 @@
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction, EmbedBuilder } from "discord.js";
 import { Discord, Slash } from "discordx";
+import prisma from "../../utils/prisma";
 
 @Discord()
 export class Me {
@@ -11,10 +12,32 @@ export class Me {
     try {
       await interaction.deferReply();
 
-      const user = interaction.user;
+      const discordId = interaction.user.id;
 
-      console.log(user);
+      const getUser = await prisma.player.findFirst({
+        where: {
+          discordId,
+        },
+      });
+
+      if (!getUser) {
+        const embed = new EmbedBuilder()
+          .setTitle("Fehler")
+          .setDescription("Du hast noch keine Brawl Stars ID gespeichert.")
+          .setColor("Red");
+
+        await interaction.editReply({ embeds: [embed] });
+        return;
+      }
+
+      const embed = new EmbedBuilder()
+        .setTitle("Deine Informationen")
+        .setDescription(`Brawl Stars ID: ${getUser.brawlstarsId}`)
+        .setColor("Blue");
+
+      await interaction.editReply({ embeds: [embed] });
     } catch (error) {
+      console.error("Error in /me command:", error);
       await interaction.editReply(
         "Es gab einen Fehler beim Ausführen des Befehls.",
       );
