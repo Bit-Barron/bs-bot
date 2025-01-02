@@ -3,7 +3,7 @@ import prisma from "../../utils/prisma";
 export const createPlayer = async (brawlStarsId: string, discordId: string) => {
   await prisma.player.create({
     data: {
-      brawlstarsId: brawlStarsId,
+      brawlStarsId: brawlStarsId,
       discordId,
     },
   });
