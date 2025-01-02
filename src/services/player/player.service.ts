@@ -1,28 +1,18 @@
+// services/player.service.ts
 import { ResultType } from "../../types/global";
+import brawlStarsApi from "../../utils/brawlstars-api";
 import prisma from "../../utils/prisma";
-import { createPlayer, deletePlayer, deleteQueue } from "./player.repository";
+import { deletePlayer, deleteQueue } from "./player.repository";
 
 export class PlayerService {
   public async checkPlayerExists(
     brawlStarsId: string,
     discordId: string,
   ): Promise<ResultType | undefined> {
-    const formattedId = encodeURIComponent(`#${brawlStarsId}`);
-    const url = `https://api.brawlstars.com/v1/players/${formattedId}`;
-
     try {
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${process.env.BRAWL_STARS_API_KEY}`,
-        },
-      });
+      const playerData = await brawlStarsApi.getPlayer(brawlStarsId);
 
-      if (response.status === 404) {
-        return {
-          success: false,
-          message: "Player not found. Please check your Brawl Stars ID.",
-        };
-      }
+      console.log("Spielerdaten:", playerData);
 
       const existingPlayer = await prisma.player.findFirst({
         where: { brawlStarsId },
@@ -47,7 +37,9 @@ export class PlayerService {
       // };
       //  }
 
-      createPlayer(brawlStarsId, discordId);
+      await prisma.player.create({
+        data: { brawlStarsId, discordId },
+      });
 
       return {
         success: true,
