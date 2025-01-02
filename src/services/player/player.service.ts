@@ -10,9 +10,7 @@ export class PlayerService {
     discordId: string,
   ): Promise<ResultType | undefined> {
     try {
-      const playerData = await brawlStarsApi.getPlayer(brawlStarsId);
-
-      console.log("Spielerdaten:", playerData);
+      await brawlStarsApi.getPlayer(brawlStarsId);
 
       const existingPlayer = await prisma.player.findFirst({
         where: { brawlStarsId },
