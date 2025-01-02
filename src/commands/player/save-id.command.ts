@@ -37,12 +37,15 @@ export class SaveIdCommand {
 
       await this.queueService.joinQueue(brawlStarsId, interaction.user.id);
 
-      const embed = new EmbedBuilder()
-        .setTitle(result?.success ? "Success" : "Error")
-        .setDescription(result?.message as string)
-        .setColor(result?.success ? "Green" : "Red");
-
-      await interaction.editReply({ embeds: [embed] });
+      await interaction.editReply({
+        embeds: [
+          createEmbed(
+            result?.success ? "Success" : "Error",
+            result?.message as string,
+            result?.success ? "Green" : "Red",
+          ),
+        ],
+      });
     } catch (error) {
       await interaction.editReply({
         embeds: [
