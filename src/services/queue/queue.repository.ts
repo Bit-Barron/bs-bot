@@ -16,7 +16,7 @@ export const getQueue = async () => {
 export const findPlayer = async (brawlStarsId: string) => {
   return await prisma.player.findFirst({
     where: {
-      brawlstarsId: brawlStarsId,
+      brawlStarsId: brawlStarsId,
     },
   });
 };

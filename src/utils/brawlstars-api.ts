@@ -14,7 +14,7 @@ const brawlStarsApi = {
       });
 
       if (!response.ok) {
-        if (retries < maxRetries) {
+        if (response.status !== 404 && retries < maxRetries) {
           console.warn(
             `Brawl Stars API request failed with status ${response.status}, retrying... (${
               retries + 1
@@ -23,17 +23,16 @@ const brawlStarsApi = {
           await new Promise((resolve) =>
             setTimeout(resolve, 2 ** retries * 1000),
           );
-          return brawlStarsApi.getPlayer(brawlStarsId, retries + 1); // Rekursiver Aufruf
+          return brawlStarsApi.getPlayer(brawlStarsId, retries + 1);
         } else {
           throw new Error(
-            `Brawl Stars API request failed with status ${response.status} after ${maxRetries} retries`,
+            `Brawl Stars API request failed with status ${response.status}`,
           );
         }
       }
 
       return await response.json();
     } catch (error) {
-      console.error("Error fetching player data:", error);
       throw error;
     }
   },

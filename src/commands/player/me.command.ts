@@ -36,7 +36,7 @@ export class MeCommand {
         embeds: [
           createEmbed(
             "Deine Brawl Stars ID",
-            `Deine Brawl Stars ID ist: \`${getUser.brawlstarsId}\``,
+            `Deine Brawl Stars ID ist: \`${getUser.brawlStarsId}\``,
             "Green",
           ),
         ],
