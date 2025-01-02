@@ -1,9 +1,5 @@
 import { Discord, Slash, SlashOption } from "discordx";
-import {
-  CommandInteraction,
-  ApplicationCommandOptionType,
-  EmbedBuilder,
-} from "discord.js";
+import { CommandInteraction, ApplicationCommandOptionType } from "discord.js";
 import { PlayerService } from "../../services/player/player.service";
 import { QueueService } from "../../services/queue/queue.service";
 import { createEmbed } from "../../helpers/discord.helper";

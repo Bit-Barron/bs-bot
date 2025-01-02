@@ -4,7 +4,7 @@ import { MatchmakingService } from "../../services/matchmaking/matchmaking.servi
 import { createEmbed } from "../../helpers/discord.helper";
 
 @Discord()
-export class StartMatchmaking {
+export class StartMatchmakingCommand {
   private matchmakingService: MatchmakingService;
 
   constructor() {
