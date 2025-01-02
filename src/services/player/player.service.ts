@@ -25,7 +25,7 @@ export class PlayerService {
       }
 
       const existingPlayer = await prisma.player.findFirst({
-        where: { brawlstarsId: brawlStarsId },
+        where: { brawlStarsId },
       });
 
       if (existingPlayer) {

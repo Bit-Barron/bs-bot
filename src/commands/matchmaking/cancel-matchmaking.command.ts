@@ -1,7 +1,7 @@
 import { Discord, Slash } from "discordx";
 import { CommandInteraction } from "discord.js";
 import { createEmbed } from "../../helpers/discord.helper";
-import { MatchmakingService } from "../../modules/matchmaking/matchmaking.service";
+import { MatchmakingService } from "../../services/matchmaking/matchmaking.service";
 
 @Discord()
 export class CancelMatchmakingCommand {

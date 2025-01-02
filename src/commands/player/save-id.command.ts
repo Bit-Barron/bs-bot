@@ -4,8 +4,8 @@ import {
   ApplicationCommandOptionType,
   EmbedBuilder,
 } from "discord.js";
-import { PlayerService } from "../../modules/player/player.service";
-import { QueueService } from "../../modules/queue/queue.service";
+import { PlayerService } from "../../services/player/player.service";
+import { QueueService } from "../../services/queue/queue.service";
 import { createEmbed } from "../../helpers/discord.helper";
 
 @Discord()
