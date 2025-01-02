@@ -6,7 +6,6 @@ import {
 } from "./matchmaking.repository";
 import { ResultType } from "../../types/global";
 
-
 export class MatchmakingService {
   private readonly matchmakingQueue: string[] = [];
   private readonly REQUIRED_PLAYERS = 6;

@@ -23,7 +23,7 @@ export class PlayerService {
         };
       }
 
-      const playerWithDiscordId = await prisma.player.findFirst({
+      await prisma.player.findFirst({
         where: { discordId },
       });
 
