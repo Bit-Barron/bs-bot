@@ -15,7 +15,7 @@ export class RemoveIdCommand {
     try {
       await interaction.deferReply();
 
-      const result = await this.playerService.removePlayer(interaction.user.id);
+      await this.playerService.removePlayer(interaction.user.id);
 
       await interaction.editReply({
         embeds: [

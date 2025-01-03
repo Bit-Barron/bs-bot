@@ -13,12 +13,9 @@ export class MatchmakingService {
   public async startMatchmaking(
     brawlStarsTeamCode: string,
     discordId: string,
-  ): Promise<void> {
+  ): Promise<ResultType | undefined> {
     if (this.matchmakingQueue.length >= this.REQUIRED_PLAYERS) {
-      new EmbedBuilder()
-        .setTitle("Error")
-        .setDescription("Matchmaking queue is full")
-        .setColor("Red");
+      return { success: false, message: "Queue is full." };
     }
     await createMatchmaking(brawlStarsTeamCode, discordId);
   }
