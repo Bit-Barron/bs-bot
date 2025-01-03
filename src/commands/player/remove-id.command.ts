@@ -17,16 +17,15 @@ export class RemoveIdCommand {
 
       const result = await this.playerService.removePlayer(interaction.user.id);
 
-      const embed = new EmbedBuilder()
-        .setTitle(result.success ? "Success" : "Error")
-        .setDescription(
-          result.success
-            ? "Player successfully removed."
-            : "Failed to remove player.",
-        )
-        .setColor(result.success ? "Green" : "Red");
-
-      await interaction.editReply({ embeds: [embed] });
+      await interaction.editReply({
+        embeds: [
+          createEmbed(
+            "Success",
+            `Your Brawl Stars ID has been removed successfully.`,
+            "Green",
+          ),
+        ],
+      });
     } catch (error) {
       await interaction.editReply({
         embeds: [
