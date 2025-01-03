@@ -42,7 +42,7 @@ export class QueueService {
       return "";
     }
 
-    const queueList = queue.map((player) => player.brawlstarsId);
+    const queueList = queue.map((player) => player.brawlStarsId);
 
     return queueList.join("\n");
   }

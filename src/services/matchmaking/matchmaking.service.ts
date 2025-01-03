@@ -25,27 +25,25 @@ export class MatchmakingService {
     discordId: string,
   ): Promise<ResultType> {
     const getMatchmaking = await getMatchmakingByDiscordId(discordId);
-    if (getMatchmaking || this.matchmakingQueue.includes(discordId)) {
+    if (getMatchmaking) {
       return { success: false, message: "You already started a matchmaking." };
     }
 
     this.matchmakingQueue.push(discordId);
     await createMatchmaking(brawlStarsTeamCode, discordId);
 
-    if (this.matchmakingQueue.length >= this.REQUIRED_PLAYERS) {
-      const result = await this.createTeamsFromQueue();
+    const result = await this.createTeamsFromQueue();
 
-      if (result.success) {
-        return { success: true, message: "Matchmaking started!" };
-      } else {
-        return { success: false, message: result.message };
-      }
+    if (result.success) {
+      return { success: true, message: "Matchmaking started!" };
+    } else {
+      return { success: false, message: result.message };
     }
 
-    return {
-      success: true,
-      message: `You joined the queue! ${this.REQUIRED_PLAYERS - this.matchmakingQueue.length} players left.`,
-    };
+    // return {
+    //   success: true,
+    //   message: `You joined the queue! ${this.REQUIRED_PLAYERS - this.matchmakingQueue.length} players left.`,
+    // };
   }
 
   public async cancelMatchmaking(
