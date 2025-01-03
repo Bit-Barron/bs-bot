@@ -1,7 +1,7 @@
 import { Discord, Slash } from "discordx";
 import prisma from "../../utils/prisma";
 import { MatchType } from "../../types/matchmaking/match.types";
-import { CommandInteraction } from "discord.js";
+import { CommandInteraction, EmbedBuilder } from "discord.js";
 import { createEmbed } from "../../helpers/discord.helper";
 
 @Discord()
@@ -10,7 +10,7 @@ export class MatchesCommand {
     name: "matches",
     description: "Get all matches",
   })
-  async matches(interaction: CommandInteraction): Promise<MatchType[]> {
+  async matches(interaction: CommandInteraction): Promise<void> {
     const getMatches = await prisma.match.findMany();
 
     const matches = getMatches.map((match) => ({
@@ -18,21 +18,22 @@ export class MatchesCommand {
       status: match.status as MatchType["status"],
     }));
 
-    await interaction.editReply({
-      embeds: [
-        createEmbed(
-          "Matches",
-          matches
-            .map(
-              (match) =>
-                `ID: ${match.id}, Team 1: ${match.team1}, Team 2: ${match.team2}, Status: ${match.status}, Created At: ${match.createdAt}`,
-            )
-            .join("\n"),
-          "Green",
-        ),
-      ],
+    const embeds = matches.map((match) => {
+      return new EmbedBuilder()
+        .setTitle(`Match ID: ${match.id}`)
+        .addFields(
+          { name: "Team 1", value: `${match.team1}`, inline: true },
+          { name: "Team 2", value: `${match.team2}`, inline: true },
+          { name: "Status", value: `${match.status}`, inline: true },
+          {
+            name: "Created At",
+            value: `${match.createdAt.toLocaleString()}`,
+            inline: true,
+          },
+        )
+        .setColor("Green");
     });
 
-    return matches;
+    await interaction.editReply({ embeds });
   }
 }
