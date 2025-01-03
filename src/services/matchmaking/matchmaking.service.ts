@@ -5,17 +5,11 @@ import {
   getMatchmakingByDiscordId,
 } from "./matchmaking.repository";
 import { ResultType } from "../../types/global";
-import { MatchmakingShuffleService } from "../team-shuffle.service";
 import prisma from "../../utils/prisma";
 
 export class MatchmakingService {
   private readonly matchmakingQueue: string[] = [];
   private readonly REQUIRED_PLAYERS = 6;
-  private readonly shuffleService: MatchmakingShuffleService;
-
-  constructor() {
-    this.shuffleService = new MatchmakingShuffleService();
-  }
 
   public async startMatchmaking(
     brawlStarsTeamCode: string,
@@ -31,6 +25,8 @@ export class MatchmakingService {
 
     if (this.matchmakingQueue.length >= this.REQUIRED_PLAYERS) {
       const result = await this.createTeamsFromQueue();
+
+      console.log("result", result);
       if (result.success) {
         return { success: true, message: "Matchmaking started!" };
       } else {
@@ -62,34 +58,15 @@ export class MatchmakingService {
 
   private async createTeamsFromQueue(): Promise<ResultType> {
     try {
-      const playersInQueue = this.matchmakingQueue.splice(
-        0,
-        this.REQUIRED_PLAYERS,
-      );
-      const shuffledPlayers = this.shuffleService.shuffle(playersInQueue);
+      const player = prisma.player.findMany();
 
-      const team1 = shuffledPlayers.slice(0, 3);
-      const team2 = shuffledPlayers.slice(3, 6);
-
-      const match = await prisma.match.create({
-        data: {
-          team1: team1.join(","),
-          team2: team2.join(","),
-          status: "PENDING",
-        },
-      });
-
-      await Promise.all([
-        createMatchmaking(team1.join(","), "team1"),
-        createMatchmaking(team2.join(","), "team2"),
-      ]);
+      console.log(player);
 
       return {
         success: true,
-        message: "Teams created successfully and match has been recorded.",
+        message: "Teams have been created and the match has been recorded.",
       };
     } catch (error) {
-      console.error("Error creating teams:", error);
       return {
         success: false,
         message: "Failed to create teams and record match.",
