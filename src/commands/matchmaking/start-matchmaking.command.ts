@@ -28,16 +28,22 @@ export class StartMatchmakingCommand {
     try {
       await interaction.deferReply();
 
-      await this.matchmakingService.startMatchmaking(
+      const matchmaking = await this.matchmakingService.startMatchmaking(
         team_code,
         interaction.user.id,
       );
 
-      await interaction.editReply({
-        embeds: [
-          createEmbed("Matchmaking Started", "Matchmaking started", "Green"),
-        ],
-      });
+      if (matchmaking.success) {
+        await interaction.editReply({
+          embeds: [
+            createEmbed("Success", matchmaking.message as string, "Green"),
+          ],
+        });
+      } else {
+        await interaction.editReply({
+          embeds: [createEmbed("Error", matchmaking.message as string, "Red")],
+        });
+      }
     } catch (error) {
       await interaction.editReply({
         embeds: [

@@ -11,13 +11,22 @@ export class MatchmakingService {
   private readonly matchmakingQueue: string[] = [];
   private readonly REQUIRED_PLAYERS = 6;
 
+  constructor() {
+    this.syncQueueWithDatabase();
+  }
+
+  private async syncQueueWithDatabase() {
+    const records = await prisma.matchmaking.findMany();
+    this.matchmakingQueue.push(...records.map((record) => record.discordId));
+  }
+
   public async startMatchmaking(
     brawlStarsTeamCode: string,
     discordId: string,
   ): Promise<ResultType> {
-    const existingRecord = await getMatchmakingByDiscordId(discordId);
-    if (existingRecord) {
-      return { success: false, message: "You are already in the queue." };
+    const getMatchmaking = await getMatchmakingByDiscordId(discordId);
+    if (getMatchmaking || this.matchmakingQueue.includes(discordId)) {
+      return { success: false, message: "You already started a matchmaking." };
     }
 
     this.matchmakingQueue.push(discordId);
@@ -26,7 +35,6 @@ export class MatchmakingService {
     if (this.matchmakingQueue.length >= this.REQUIRED_PLAYERS) {
       const result = await this.createTeamsFromQueue();
 
-      console.log("result", result);
       if (result.success) {
         return { success: true, message: "Matchmaking started!" };
       } else {
@@ -58,9 +66,9 @@ export class MatchmakingService {
 
   private async createTeamsFromQueue(): Promise<ResultType> {
     try {
-      const player = prisma.player.findMany();
+      const players = prisma.player.findMany();
 
-      console.log(player);
+      console.log(players);
 
       return {
         success: true,
