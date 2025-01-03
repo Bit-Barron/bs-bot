@@ -13,7 +13,7 @@ export class SaveIdCommand {
     name: "save-id",
     description: "Save your Brawl Stars ID",
   })
-  async execute(
+  async saveIdCommand(
     @SlashOption({
       name: "id",
       description: "Your Brawl Stars ID",

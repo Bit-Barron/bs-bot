@@ -9,7 +9,7 @@ export class MeCommand {
     name: "me",
     description: "Zeigt Informationen über dich an",
   })
-  async execute(interaction: CommandInteraction): Promise<void> {
+  async meCommand(interaction: CommandInteraction): Promise<void> {
     try {
       await interaction.deferReply();
 

@@ -15,7 +15,7 @@ export class StartMatchmakingCommand {
     name: "start-matchmaking",
     description: "Tritt einer Matchmaking-Queue bei",
   })
-  async execute(
+  async startMatchmaking(
     @SlashOption({
       name: "team_code",
       description: "Dein Team-Code (z.B. X6ABG99)",

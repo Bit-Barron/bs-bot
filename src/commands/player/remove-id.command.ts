@@ -11,7 +11,7 @@ export class RemoveIdCommand {
     name: "remove-id",
     description: "Remove your Brawl Stars ID",
   })
-  async execute(interaction: CommandInteraction): Promise<void> {
+  async removeIdCommand(interaction: CommandInteraction): Promise<void> {
     try {
       await interaction.deferReply();
 

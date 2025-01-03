@@ -11,7 +11,7 @@ export class CancelMatchmakingCommand {
     name: "cancel-matchmaking",
     description: "Verlasse die Matchmaking-Queue",
   })
-  async execute(interaction: CommandInteraction): Promise<void> {
+  async cancelMatchmaking(interaction: CommandInteraction): Promise<void> {
     try {
       await interaction.deferReply();
 

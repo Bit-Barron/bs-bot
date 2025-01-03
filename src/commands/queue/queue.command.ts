@@ -15,7 +15,7 @@ export class QueueCommand {
     name: "queue",
     description: "Join the matchmaking queue",
   })
-  async queue(interaction: any) {
+  async queueCommand(interaction: any) {
     try {
       const queue = await this.queueService.getQueue();
 
