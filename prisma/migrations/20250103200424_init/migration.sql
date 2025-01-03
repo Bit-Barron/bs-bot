@@ -29,7 +29,7 @@ CREATE TABLE "Matchmaking" (
 -- CreateTable
 CREATE TABLE "Player" (
     "id" TEXT NOT NULL,
-    "brawlstarsId" TEXT NOT NULL,
+    "brawlStarsId" TEXT NOT NULL,
     "discordId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

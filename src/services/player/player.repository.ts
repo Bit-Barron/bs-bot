@@ -14,5 +14,5 @@ export const deletePlayer = async (discordId: string) => {
 };
 
 export const deleteQueue = async (discordId: string) => {
-  await prisma.queue.deleteMany({ where: { discordId } });
+  await prisma.player.deleteMany({ where: { discordId } });
 };

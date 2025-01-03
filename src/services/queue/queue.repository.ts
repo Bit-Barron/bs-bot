@@ -1,16 +1,16 @@
 import prisma from "../../utils/prisma";
 
 export const createQueue = async (discordId: string, brawlStarsId: string) => {
-  await prisma.queue.create({
+  await prisma.player.create({
     data: {
       discordId,
-      brawlstarsId: brawlStarsId,
+      brawlStarsId: brawlStarsId,
     },
   });
 };
 
 export const getQueue = async () => {
-  return await prisma.queue.findMany();
+  return await prisma.player.findMany();
 };
 
 export const findPlayer = async (brawlStarsId: string) => {
@@ -22,7 +22,7 @@ export const findPlayer = async (brawlStarsId: string) => {
 };
 
 export const findQueue = async (discordId: string) => {
-  return await prisma.queue.findFirst({
+  return await prisma.player.findFirst({
     where: {
       discordId,
     },
