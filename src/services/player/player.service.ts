@@ -1,4 +1,3 @@
-// services/player.service.ts
 import { ResultType } from "../../types/global";
 import brawlStarsApi from "../../utils/brawlstars-api";
 import prisma from "../../utils/prisma";

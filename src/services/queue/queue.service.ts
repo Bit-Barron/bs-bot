@@ -1,5 +1,4 @@
 import { ResultType } from "../../types/global";
-import prisma from "../../utils/prisma";
 import {
   createQueue,
   findPlayer,
