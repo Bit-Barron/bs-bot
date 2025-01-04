@@ -62,21 +62,47 @@ export class MatchmakingService {
     return { success: true, message: "You have been removed from the queue." };
   }
 
+  private shuffleArray<T>(array: T[]): T[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
   private async createTeamsFromQueue(): Promise<ResultType> {
-    try {
-      const players = prisma.player.findMany();
-
-      console.log(players);
-
-      return {
-        success: true,
-        message: "Teams have been created and the match has been recorded.",
-      };
-    } catch (error) {
+    if (this.matchmakingQueue.length < this.REQUIRED_PLAYERS) {
       return {
         success: false,
-        message: "Failed to create teams and record match.",
+        message: `Not enough players. Waiting for ${
+          this.REQUIRED_PLAYERS - this.matchmakingQueue.length
+        } more.`,
       };
     }
+
+    // Spieler aus der Queue nehmen
+    const playersForMatch = this.matchmakingQueue.splice(
+      0,
+      this.REQUIRED_PLAYERS,
+    );
+
+    const shuffledPlayers = this.shuffleArray(playersForMatch);
+
+    const team1 = shuffledPlayers.slice(0, this.REQUIRED_PLAYERS / 2);
+    const team2 = shuffledPlayers.slice(this.REQUIRED_PLAYERS / 2);
+
+    await prisma.match.create({
+      data: {
+        team1: { set: team1 },
+        team2: { set: team2 },
+      },
+    });
+
+    return {
+      success: true,
+      message: `Match created with teams:\nTeam 1: ${team1.join(
+        ", ",
+      )}\nTeam 2: ${team2.join(", ")}`,
+    };
   }
 }

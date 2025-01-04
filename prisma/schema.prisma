@@ -22,8 +22,8 @@ enum MatchStatus {
 
 model Match {
   id        String      @id @default(cuid())
-  team1     String      
-  team2     String      
+  team1     String[]     
+  team2     String[]     
   status    MatchStatus @default(PENDING)
   createdAt DateTime    @default(now())
 }
