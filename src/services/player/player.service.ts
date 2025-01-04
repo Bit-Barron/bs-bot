@@ -35,7 +35,11 @@ export class PlayerService {
       //  }
 
       await prisma.player.create({
-        data: { brawlStarsId, discordId },
+        data: {
+          brawlStarsId,
+          discordId,
+          elo: 0,
+        },
       });
 
       return {

@@ -5,3 +5,18 @@ export const shuffleArray = <T>(array: T[]): T[] => {
   }
   return array;
 };
+
+export function calculateEloChange(
+  playerElo: number,
+  opponentElo: number,
+  result: "win" | "lose",
+): number {
+  const k = 32; // K-Faktor bestimmt, wie schnell Elo sich ändert
+  const expectedScore = 1 / (1 + Math.pow(10, (opponentElo - playerElo) / 400));
+
+  if (result === "win") {
+    return Math.round(k * (1 - expectedScore));
+  } else {
+    return Math.round(k * (0 - expectedScore));
+  }
+}

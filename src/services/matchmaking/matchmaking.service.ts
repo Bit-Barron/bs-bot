@@ -7,6 +7,8 @@ import {
 import { ResultType } from "../../types/global";
 import prisma from "../../utils/prisma";
 import { shuffleArray } from "../../utils/constants";
+import brawlStarsApi from "../../utils/brawlstars-api";
+import { calculateEloChange } from "../../helpers/brawl-stars.helper";
 
 export class MatchmakingService {
   private readonly matchmakingQueue: string[] = [];
@@ -36,6 +38,8 @@ export class MatchmakingService {
     const result = await this.createTeamsFromQueue();
 
     if (result.success) {
+      this.getPlayerBattleLog(discordId);
+
       return { success: true, message: "Matchmaking started!" };
     } else {
       return { success: false, message: result.message };
@@ -45,6 +49,26 @@ export class MatchmakingService {
     //   success: true,
     //   message: `You joined the queue! ${this.REQUIRED_PLAYERS - this.matchmakingQueue.length} players left.`,
     // };
+  }
+  public async getPlayerBattleLog(discordId: string): Promise<ResultType> {
+    try {
+      const player = await prisma.player.findFirst({
+        where: { discordId },
+      });
+
+      if (!player) {
+        return { success: false, message: "Player not found." };
+      }
+
+      const battleLog = await brawlStarsApi.getBattleLog(player.brawlStarsId);
+
+      console.log("battlelog", battleLog);
+
+      return { success: true, message: battleLog };
+    } catch (err) {
+      console.error(err);
+      return { success: false, message: "Failed to process battlelog." };
+    }
   }
 
   public async cancelMatchmaking(

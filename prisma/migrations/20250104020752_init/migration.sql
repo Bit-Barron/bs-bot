@@ -7,8 +7,8 @@ CREATE TYPE "MatchStatus" AS ENUM ('PENDING', 'COMPLETED', 'CANCELLED');
 -- CreateTable
 CREATE TABLE "Match" (
     "id" TEXT NOT NULL,
-    "team1" TEXT NOT NULL,
-    "team2" TEXT NOT NULL,
+    "team1" TEXT[],
+    "team2" TEXT[],
     "status" "MatchStatus" NOT NULL DEFAULT 'PENDING',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -32,18 +32,19 @@ CREATE TABLE "Player" (
     "brawlStarsId" TEXT NOT NULL,
     "discordId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "elo" INTEGER NOT NULL,
 
     CONSTRAINT "Player_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Queue" (
+CREATE TABLE "Leaderboard" (
     "id" TEXT NOT NULL,
     "discordId" TEXT NOT NULL,
-    "brawlstarsId" TEXT NOT NULL,
+    "points" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "Queue_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Leaderboard_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

@@ -41,6 +41,7 @@ model Player {
   brawlStarsId String
   discordId    String
   createdAt    DateTime @default(now())
+  elo          Int
 }
 
 
