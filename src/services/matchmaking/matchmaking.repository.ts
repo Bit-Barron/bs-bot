@@ -13,9 +13,8 @@ export const createMatchmaking = async (
 };
 
 export const cancelMatchmaking = async (discordId: string) => {
-  return await prisma.matchmaking.update({
+  return await prisma.matchmaking.delete({
     where: { discordId },
-    data: { status: "CANCELLED" },
   });
 };
 
@@ -24,5 +23,3 @@ export const getMatchmakingByDiscordId = async (discordId: string) => {
     where: { discordId },
   });
 };
-
-
