@@ -35,7 +35,7 @@ export class QueueService {
     }
   }
 
-  public async getQueue(): Promise<string> {
+  public async getQueueList(): Promise<string> {
     const queue = await getQueue();
 
     if (queue.length === 0) {
