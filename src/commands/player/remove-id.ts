@@ -1,7 +1,7 @@
 import { Discord, Slash } from "discordx";
 import { CommandInteraction, EmbedBuilder } from "discord.js";
 import { PlayerService } from "../../services/player/player.service";
-import { createEmbed } from "../../helpers/discord.helper";
+import { createEmbed } from "../../helpers";
 
 @Discord()
 export class RemoveIdCommand {

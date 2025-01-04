@@ -2,7 +2,7 @@ import { Discord, Slash, SlashOption } from "discordx";
 import { CommandInteraction, ApplicationCommandOptionType } from "discord.js";
 import { PlayerService } from "../../services/player/player.service";
 import { QueueService } from "../../services/queue/queue.service";
-import { createEmbed } from "../../helpers/discord.helper";
+import { createEmbed } from "../../helpers";
 
 @Discord()
 export class SaveIdCommand {

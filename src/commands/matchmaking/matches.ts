@@ -2,7 +2,7 @@ import { Discord, Slash } from "discordx";
 import prisma from "../../utils/prisma";
 import { MatchType } from "../../types/matchmaking/match.types";
 import { CommandInteraction, EmbedBuilder, Message } from "discord.js";
-import { createEmbed } from "../../helpers/discord.helper";
+import { createEmbed } from "../../helpers";
 
 @Discord()
 export class MatchesCommand {

@@ -1,7 +1,7 @@
 import { Discord, Slash, SlashOption } from "discordx";
 import { CommandInteraction, ApplicationCommandOptionType } from "discord.js";
 import { MatchmakingService } from "../../services/matchmaking/matchmaking.service";
-import { createEmbed } from "../../helpers/discord.helper";
+import { createEmbed } from "../../helpers";
 
 @Discord()
 export class StartMatchmakingCommand {
