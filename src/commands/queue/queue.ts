@@ -1,7 +1,7 @@
 import { Discord, Slash } from "discordx";
 import { QueueService } from "../../services/queue/queue.service";
 import { EmbedBuilder } from "discord.js";
-import { createEmbed } from "../../helpers";
+import { createEmbed } from "../../helpers/discord.helper";
 import { getQueue } from "../../services/queue/queue.repository";
 
 @Discord()

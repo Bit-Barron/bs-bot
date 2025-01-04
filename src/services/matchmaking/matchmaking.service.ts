@@ -6,6 +6,7 @@ import {
 } from "./matchmaking.repository";
 import { ResultType } from "../../types/global";
 import prisma from "../../utils/prisma";
+import { shuffleArray } from "../../utils/constants";
 
 export class MatchmakingService {
   private readonly matchmakingQueue: string[] = [];
@@ -62,14 +63,6 @@ export class MatchmakingService {
     return { success: true, message: "You have been removed from the queue." };
   }
 
-  private shuffleArray<T>(array: T[]): T[] {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
-
   private async createTeamsFromQueue(): Promise<ResultType> {
     if (this.matchmakingQueue.length < this.REQUIRED_PLAYERS) {
       return {
@@ -85,7 +78,7 @@ export class MatchmakingService {
       this.REQUIRED_PLAYERS,
     );
 
-    const shuffledPlayers = this.shuffleArray(playersForMatch);
+    const shuffledPlayers = shuffleArray(playersForMatch);
 
     const team1 = shuffledPlayers.slice(0, this.REQUIRED_PLAYERS / 2);
     const team2 = shuffledPlayers.slice(this.REQUIRED_PLAYERS / 2);

@@ -1,6 +1,6 @@
 import { Discord, Slash } from "discordx";
 import { CommandInteraction } from "discord.js";
-import { createEmbed } from "../../helpers";
+import { createEmbed } from "../../helpers/discord.helper";
 import { MatchmakingService } from "../../services/matchmaking/matchmaking.service";
 
 @Discord()
