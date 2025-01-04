@@ -24,10 +24,22 @@ export class MatchesCommand {
 
     if (!matches.length) {
       const embed = createEmbed("No Matches", "No matches found", "Red");
-
       return await interaction.editReply({ embeds: [embed] });
     }
-    const embed = createEmbed("Matches", "Here are the matches", "Green");
+
+    const matchList = matches
+      .map((match, index) => {
+        const team1 = match.team1.join(", ");
+        const team2 = match.team2.join(", ");
+        return `**Match ${index + 1}:**\nTeam 1: ${team1}\nTeam 2: ${team2}\nStatus: ${match.status}\n`;
+      })
+      .join("\n");
+
+    const embed = new EmbedBuilder()
+      .setTitle("Matches")
+      .setDescription(matchList)
+      .setColor("Green");
+
     await interaction.editReply({ embeds: [embed] });
   }
 }
