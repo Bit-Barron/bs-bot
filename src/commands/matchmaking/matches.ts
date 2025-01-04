@@ -35,11 +35,8 @@ export class MatchesCommand {
       })
       .join("\n");
 
-    const embed = new EmbedBuilder()
-      .setTitle("Matches")
-      .setDescription(matchList)
-      .setColor("Green");
-
-    await interaction.editReply({ embeds: [embed] });
+    await interaction.editReply({
+      embeds: [createEmbed("Matches", matchList, "Green")],
+    });
   }
 }
