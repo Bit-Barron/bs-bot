@@ -43,3 +43,10 @@ model Player {
   createdAt    DateTime @default(now())
 }
 
+
+model Leaderboard {
+  id        String   @id @default(cuid())
+  discordId String
+  points    Int
+  createdAt DateTime @default(now())
+}
