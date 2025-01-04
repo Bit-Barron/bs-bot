@@ -80,7 +80,6 @@ export class MatchmakingService {
       };
     }
 
-    // Spieler aus der Queue nehmen
     const playersForMatch = this.matchmakingQueue.splice(
       0,
       this.REQUIRED_PLAYERS,
